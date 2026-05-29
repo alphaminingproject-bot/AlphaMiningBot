@@ -7,7 +7,7 @@
 const APP_CONFIG = {
   // ── Bot & Backend ─────────────────────────────────────────
   BOT_USERNAME:   "YourALPHABot",           // ← replace with your bot username
-  BACKEND_URL:    "https://us-central1-alpha-miner-199e2.cloudfunctions.net/api",
+  BACKEND_URL:    "",
 
   // ── Supply ───────────────────────────────────────────────
   MAX_SUPPLY:     100000000000,              // 100 billion ALPHA
