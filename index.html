@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+  <title>ALPHA Token</title>
+  <link rel="stylesheet" href="app.css"/>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══ HEADER ══ -->
+  <div class="header">
+    <div class="header-avatar" id="avatar-btn" onclick="openProfile()">A</div>
+    <div class="header-info">
+      <div class="header-name" id="hdr-name">Loading...</div>
+      <div class="header-id"   id="hdr-id">ID: ---</div>
+    </div>
+    <div class="header-right">
+      <button class="history-btn" onclick="openHistory()" title="History">⏱</button>
+      <div class="header-bal">
+        <div class="header-bal-num"   id="hdr-bal">0</div>
+        <div class="header-bal-label">ALPHA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGES ══ -->
+  <div class="pages">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+
+      <!-- Mining stopped banner -->
+      <div id="supply-reached-banner" style="display:none; background:rgba(255,61,90,0.1); border:1px solid var(--red); border-radius:10px; padding:12px; margin-bottom:12px; text-align:center; font-size:11px; color:var(--red);">
+        ⛔ Max supply of 1,000,000,000 ALPHA reached. Mining has ended.
+      </div>
+
+      <!-- Miner active banner -->
+      <div class="miner-banner" id="miner-banner">
+        <div class="miner-banner-title" id="miner-banner-title">⚡ AUTO MINER ACTIVE</div>
+        <div class="miner-banner-info"  id="miner-banner-info">Loading...</div>
+        <div class="miner-banner-sub"   id="miner-banner-sub"></div>
+        <button class="miner-claim-btn" id="miner-claim-btn" onclick="claimMinerReward()">CLAIM REWARD</button>
+      </div>
+
+      <!-- Balance ring -->
+      <div class="balance-block">
+        <div class="balance-ring">
+          <svg viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="72" fill="none" stroke="rgba(26,111,255,0.07)" stroke-width="7"/>
+            <circle id="bal-arc" cx="80" cy="80" r="72" fill="none" stroke="url(#ag)" stroke-width="7"
+              stroke-linecap="round" stroke-dasharray="452" stroke-dashoffset="452"
+              transform="rotate(-90 80 80)" style="transition:stroke-dashoffset 0.9s ease;"/>
+            <defs>
+              <linearGradient id="ag" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0d4fd6"/>
+                <stop offset="100%" stop-color="#1a6fff"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="balance-inner">
+            <div class="balance-num"   id="bal-num">0</div>
+            <div class="balance-token">ALPHA</div>
+          </div>
+        </div>
+
+        <!-- Mine button -->
+        <button class="mine-btn" id="mine-btn" onclick="handleMine()">⚡ COLLECT MINING REWARD</button>
+        <div class="mine-timer" id="mine-timer"></div>
+      </div>
+
+      <!-- Max supply bar -->
+      <div class="supply-bar-wrap">
+        <div class="supply-bar-label">
+          <span>MAX SUPPLY</span>
+          <span id="supply-pct">0%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="supply-bar" style="width:0%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+          <span style="font-size:9px;color:var(--gray);" id="supply-mined">0 mined</span>
+          <span style="font-size:9px;color:var(--gray);">1,000,000,000 max</span>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-v" id="stat-sessions">0</div>
+          <div class="stat-l">SESSIONS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-v" id="stat-refs">0</div>
+          <div class="stat-l">REFERRALS</div>
+        </div>
+      </div>
+
+      <!-- Convert coming soon -->
+      <div class="convert-wrap">
+        <div style="font-size:10px;letter-spacing:3px;color:var(--blue);margin-bottom:10px;">CONVERT</div>
+        <div class="convert-soon">🌙 COMING SOON</div>
+        <div class="convert-sub">Alpha → TON conversion is on the roadmap</div>
+      </div>
+
+      <!-- Roadmap -->
+      <div class="roadmap">
+        <div class="roadmap-title">ROADMAP</div>
+        <div class="rm-item">
+          <div class="rm-dot done"></div>
+          <div><div class="rm-name">🚀 Launch</div><div class="rm-sub">ALPHA Token airdrop is live</div></div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-dot current"></div>
+          <div><div class="rm-name">🖼 NFT Marketplace</div><div class="rm-sub">Launch exclusive ALPHA NFTs</div></div>
+        </div>
+        <div class="rm-item">
+          <div class="rm-dot future"></div>
+          <div><div class="rm-name">💱 Convert Alpha → TON</div><div class="rm-sub">Direct in-app token swap</div></div>
+        </div>
+      </div>
+    </div><!-- /page-home -->
+
+    <!-- TASKS -->
+    <div class="page" id="page-tasks">
+      <div class="sec-title">TASKS</div>
+      <div id="tasks-list"></div>
+    </div>
+
+    <!-- SHOP -->
+    <div class="page" id="page-shop">
+      <div class="sec-title">SHOP</div>
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="switchSubTab('miners',this)">MINERS</button>
+        <button class="sub-tab"        onclick="switchSubTab('nft',this)">NFT</button>
+        <button class="sub-tab"        onclick="switchSubTab('market',this)">MARKET</button>
+      </div>
+
+      <!-- MINERS -->
+      <div class="sub-page active" id="sub-miners">
+        <!-- Beta Miner -->
+        <div class="miner-card">
+          <div class="miner-img-placeholder">⚙️</div>
+          <div class="miner-body">
+            <div class="miner-name">Beta Miner</div>
+            <span class="miner-badge beta">BETA</span>
+            <div class="miner-detail">Duration: <span>12 hours auto-mining</span></div>
+            <div class="miner-detail">Valid for: <span>3 days</span></div>
+            <div class="miner-detail">Claim: <span>After 12 hours</span></div>
+            <div class="miner-detail">Cost: <span style="color:var(--gold)">300 ALPHA</span></div>
+            <button class="miner-buy-btn" id="buy-beta-btn" onclick="buyMiner('beta')">BUY BETA MINER — 300 ALPHA</button>
+          </div>
+        </div>
+        <!-- Alpha Miner -->
+        <div class="miner-card">
+          <div class="miner-img-placeholder">🔮</div>
+          <div class="miner-body">
+            <div class="miner-name">Alpha Miner</div>
+            <span class="miner-badge alpha">ALPHA</span>
+            <div class="miner-detail">Duration: <span>24 hours auto-mining</span></div>
+            <div class="miner-detail">Valid for: <span>3 days</span></div>
+            <div class="miner-detail">Claim: <span>After 24 hours</span></div>
+            <div class="miner-detail">Cost: <span style="color:var(--gold)">500 ALPHA</span></div>
+            <button class="miner-buy-btn" id="buy-alpha-btn" onclick="buyMiner('alphaminer')">BUY ALPHA MINER — 500 ALPHA</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NFT TAB -->
+      <div class="sub-page" id="sub-nft">
+        <div class="coming-soon-wrap">
+          <div class="coming-soon-btn">✦ COMING SOON ✦</div>
+          <div class="coming-soon-sub">NFT MARKETPLACE LAUNCHING SOON</div>
+        </div>
+      </div>
+
+      <!-- MARKET TAB (NFT Listings from admin) -->
+      <div class="sub-page" id="sub-market">
+        <div class="sec-title">NFT MARKET</div>
+        <div id="nft-market-list"></div>
+      </div>
+    </div><!-- /page-shop -->
+
+    <!-- LEADERBOARD -->
+    <div class="page" id="page-lb">
+      <div class="sec-title">LEADERBOARD</div>
+      <div class="lb-podium" id="lb-podium"></div>
+      <div id="lb-list"></div>
+    </div>
+
+    <!-- REFERRALS -->
+    <div class="page" id="page-ref">
+      <div class="ref-hero">
+        <div class="ref-count"  id="ref-count">0</div>
+        <div class="ref-label">TOTAL REFERRALS</div>
+        <div class="ref-earned" id="ref-earned">+0 ALPHA earned</div>
+      </div>
+      <div class="ref-link-card">
+        <div class="ref-link-label">YOUR REFERRAL LINK</div>
+        <div class="ref-link-box" id="ref-link-box">...</div>
+        <button class="copy-btn"  onclick="copyRefLink()">📋 COPY LINK</button>
+        <button class="share-btn" onclick="shareRefLink()">↗ SHARE VIA TELEGRAM</button>
+      </div>
+      <div class="sec-title">REFERRED USERS</div>
+      <div id="ref-list"></div>
+    </div>
+
+  </div><!-- /pages -->
+
+  <!-- ══ BOTTOM NAV ══ -->
+  <nav class="nav">
+    <button class="nav-btn active" id="nav-home" onclick="switchPage('home',this)">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      <span>HOME</span><div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="nav-tasks" onclick="switchPage('tasks',this)">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+      <span>TASKS</span><div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="nav-shop" onclick="switchPage('shop',this)">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+      <span>SHOP</span><div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="nav-lb" onclick="switchPage('lb',this)">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <span>RANKS</span><div class="nav-dot"></div>
+    </button>
+    <button class="nav-btn" id="nav-ref" onclick="switchPage('ref',this)">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <span>REFS</span><div class="nav-dot"></div>
+    </button>
+  </nav>
+
+</div><!-- /app -->
+
+<!-- ══ HISTORY OVERLAY ══ -->
+<div class="overlay" id="overlay-history">
+  <div class="overlay-header">
+    <div class="overlay-title">Transaction History</div>
+    <button class="overlay-close" onclick="closeOverlay('overlay-history')">✕</button>
+  </div>
+  <div class="overlay-body" id="history-body"></div>
+</div>
+
+<!-- ══ PROFILE OVERLAY ══ -->
+<div class="overlay" id="overlay-profile">
+  <div class="overlay-header">
+    <div class="overlay-title">Profile</div>
+    <button class="overlay-close" onclick="closeOverlay('overlay-profile')">✕</button>
+  </div>
+  <div class="overlay-body" id="profile-body"></div>
+</div>
+
+<!-- ══ NFT SEND MODAL ══ -->
+<div class="modal" id="modal-send">
+  <div class="modal-box">
+    <div class="modal-title">Send NFT</div>
+    <input class="modal-input" id="send-address-input" placeholder="Enter wallet address..."/>
+    <div class="modal-btns">
+      <button class="modal-ok"     onclick="confirmSendNFT()">SEND</button>
+      <button class="modal-cancel" onclick="closeModal('modal-send')">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast"></div>
+
+<!-- ══ SCRIPTS ══ -->
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
