@@ -1,4 +1,9 @@
+/* ============================================================
+   admin.js  —  ALPHA Token Admin Dashboard Logic
+   No external APIs. All data via data.js (DB object).
+   ============================================================ */
 
+/* ── CHANGE THIS PASSWORD ── */
 var ADMIN_PASSWORD = 'alpha2025admin';
 
 /* ─────────────────────────────────────────

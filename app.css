@@ -1,4 +1,9 @@
+/* ============================================================
+   app.css  —  ALPHA Token Mini App Styles
+   Zero external dependencies. All fonts are system/embedded.
+   ============================================================ */
 
+/* ── Reset & Variables ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 :root {
